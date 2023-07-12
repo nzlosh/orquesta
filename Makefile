@@ -40,7 +40,7 @@ clean:
 
 .PHONY: venv
 venv:
-	test -d $(VENV_DIR) || virtualenv -p $(PY3) $(VENV_DIR)
+	test -d $(VENV_DIR) || $(PY3) -m venv $(VENV_DIR)
 
 .PHONY: reqs
 reqs: venv
@@ -61,7 +61,8 @@ format:
 
 .PHONY: check
 check:
-	tox
+	test -x $(VENV_DIR)/bin/tox || $(VENV_DIR)/bin/pip install tox;
+	$(VENV_DIR)/bin/tox
 
 .PHONY: docs
 docs: reqs
